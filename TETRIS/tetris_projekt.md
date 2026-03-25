@@ -1,32 +1,27 @@
-# TETRIS_projekt.md
+# TETRIS - Projektová dokumentace
 
 ## Název projektu
-Tetris
+TETRIS
 
 ## Popis a cíl projektu
-Cílem projektu je implementovat klasickou logickou hru Tetris v programovacím jazyce Python s využitím knihovny Pygame pro grafické uživatelské rozhraní. Hra bude simulovat základní mechaniky originálního Tetrisu, kde hráči manipulují s padajícími bloky (tetrominy), aby vytvořili plné vodorovné řady, které se následně odstraní.
-
-Hlavním cílem je vytvořit funkční a hratelnou verzi hry, která bude demonstrovat principy objektově orientovaného programování, algoritmizace pohybu a rotace objektů, detekce kolizí a správy herního stavu. Projekt bude rozdělen do tří fází, přičemž každá fáze bude postupně rozšiřovat funkcionalitu a robustnost kódu.
+Cílem tohoto projektu je vytvořit funkční implementaci klasické blokové logické hry Tetris v programovacím jazyce Python. Hra bude spuštěna v konzolovém prostředí a bude simulovat základní mechaniky originální hry, včetně padání bloků (tetromino), jejich otáčení, pohybu a odstraňování plných řádků. Hlavním cílem je poskytnout plně hratelnou verzi hry, která bude demonstrovat pochopení objektově orientovaného programování, algoritmizace a správy herního stavu.
 
 ## Popis funkcionality programu (Fáze 1)
-V první fázi projektu je kladen důraz na vytvoření základní struktury a rámce pro budoucí implementaci hry. Program bude schopen:
-*   Inicializovat herní okno pomocí Pygame.
-*   Definovat základní herní desku (grid), na které se budou bloky pohybovat.
-*   Definovat různé typy tetromin (herních bloků) s jejich tvary a barvami.
-*   Inicializovat herní stav, včetně aktuálního a následujícího padajícího bloku.
-*   Zobrazit prázdnou herní desku a aktuální padající blok v počáteční pozici.
-*   Zatím nebude implementována žádná herní logika pro pohyb, rotaci, kolize nebo odstraňování řad. Cílem je připravit stabilní základ pro další vývoj.
+V první fázi projektu je kladen důraz na vytvoření základní struktury a definici klíčových komponent hry. Program bude obsahovat:
+*   **Herní desku (Board):** Reprezentace hracího pole, kde se budou bloky pohybovat a usazovat. Bude definována její velikost a způsob ukládání informací o obsazených polích.
+*   **Tetromino (Herní bloky):** Definice různých tvarů tetromino, jejich počátečních pozic, barev (pro vizualizaci, i když v konzoli to bude textové) a možných rotací. Každé tetromino bude mít své vlastní vlastnosti a metody pro manipulaci.
+*   **Inicializace hry:** Nastavení počátečního stavu herní desky a prvního padajícího tetromino.
+*   **Záchytné body:** Struktura pro budoucí implementaci herní smyčky a uživatelského vstupu.
+
+Tato fáze se zaměřuje na vytvoření robustního základu, na kterém bude možné v dalších fázích stavět komplexnější herní logiku.
 
 ## Technická část (Fáze 1)
-*   **Použité knihovny:** `pygame` pro grafické rozhraní a události, `random` pro generování náhodných tetromin.
-*   **Algoritmy:** V této fázi se primárně jedná o inicializační algoritmy pro nastavení herního prostředí a generování počátečních dat.
+*   **Použité knihovny:** Pro tuto fázi nejsou vyžadovány žádné externí knihovny. Vše bude implementováno pomocí standardních Pythonových modulů.
+*   **Algoritmy:**
+    *   **Reprezentace herní desky:** Použití dvourozměrného seznamu (list of lists) pro reprezentaci herní desky, kde každá buňka bude obsahovat informaci o tom, zda je prázdná, nebo obsazená částí tetromino.
+    *   **Reprezentace tetromino:** Každé tetromino bude reprezentováno jako třída, která bude obsahovat seznam souřadnic (relativních k jeho středu nebo kotevnímu bodu) pro každý svůj tvar a rotaci.
 *   **Vlastní datové struktury:**
-    *   **`Board` třída:** Reprezentuje herní desku jako 2D seznam (list of lists) pro ukládání stavu jednotlivých buněk (prázdná/obsazená blokem a jeho barvou).
-    *   **`Tetromino` třída:** Reprezentuje padající blok. Obsahuje:
-        *   `shapes`: Slovník nebo seznam obsahující matice (list of lists) definující tvary a rotace pro každý typ tetromina (I, J, L, O, S, T, Z).
-        *   `color`: Barva tetromina.
-        *   `x`, `y`: Souřadnice levého horního rohu ohraničujícího boxu tetromina na herní desce.
-        *   `rotation`: Index aktuální rotace tetromina.
-    *   **`Game` třída:** Spravuje celkový herní stav, obsahuje instanci `Board`, aktuální a následující `Tetromino`, skóre a stav hry (game over).
-*   **Volání externího API:** Není relevantní v této fázi.
-*   **Ošetření chyb:** V této fázi se primárně zaměřujeme na robustní inicializaci a strukturu, ošetření chyb bude rozšířeno v pozdějších fázích.
+    *   Třída `Board`: Spravuje stav hrací plochy.
+    *   Třída `Tetromino`: Abstraktní základní třída pro všechny typy tetromino.
+    *   Děděné třídy pro konkrétní tvary tetromino (např. `I_Tetromino`, `J_Tetromino`, `L_Tetromino`, `O_Tetromino`, `S_Tetromino`, `T_Tetromino`, `Z_Tetromino`).
+*   **Volání externího API:** Není použito.

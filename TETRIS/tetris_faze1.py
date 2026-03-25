@@ -1,303 +1,207 @@
-import pygame
 import random
 
-# --- Konstanty pro hru ---
-# Rozměry obrazovky
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 700
-PLAY_WIDTH = 300  # 10 * 30 pixelů
-PLAY_HEIGHT = 600  # 20 * 30 pixelů
-BLOCK_SIZE = 30
+# Definice barev pro lepší vizualizaci v konzoli (i když jen textová)
+# V reálné grafické hře by to byly RGB hodnoty
+COLORS = {
+    'I': 'Cyan',
+    'O': 'Yellow',
+    'T': 'Purple',
+    'S': 'Green',
+    'Z': 'Red',
+    'J': 'Blue',
+    'L': 'Orange',
+    'EMPTY': 'Black' # Barva pro prázdné pole
+}
 
-# Pozice levého horního rohu hrací plochy
-TOP_LEFT_X = (SCREEN_WIDTH - PLAY_WIDTH) // 2
-TOP_LEFT_Y = SCREEN_HEIGHT - PLAY_HEIGHT - 50
-
-# Barvy
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-GRAY = (128, 128, 128)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
-ORANGE = (255, 165, 0)
-PURPLE = (128, 0, 128)
-CYAN = (0, 255, 255)
-
-# --- Tvary Tetromin ---
-# Každý tvar je definován jako seznam 4x4 matic, kde každá matice představuje jednu rotaci.
-# 0 znamená prázdné místo, 1 znamená blok.
-
-S = [['.....',
-      '.....',
-      '..00.',
-      '.00..',
-      '.....'],
-     ['.....',
-      '..0..',
-      '..00.',
-      '...0.',
-      '.....']]
-
-Z = [['.....',
-      '.....',
-      '.00..',
-      '..00.',
-      '.....'],
-     ['.....',
-      '...0.',
-      '..00.',
-      '..0..',
-      '.....']]
-
-I = [['.....',
-      '..0..',
-      '..0..',
-      '..0..',
-      '..0..'],
-     ['.....',
-      '0000.',
-      '.....',
-      '.....',
-      '.....']]
-
-O = [['.....',
-      '.....',
-      '.00..',
-      '.00..',
-      '.....']]
-
-J = [['.....',
-      '.0...',
-      '.000.',
-      '.....',
-      '.....'],
-     ['.....',
-      '..00.',
-      '..0..',
-      '..0..',
-      '.....'],
-     ['.....',
-      '.....',
-      '.000.',
-      '...0.',
-      '.....'],
-     ['.....',
-      '..0..',
-      '..0..',
-      '.00..',
-      '.....']]
-
-L = [['.....',
-      '...0.',
-      '.000.',
-      '.....',
-      '.....'],
-     ['.....',
-      '..0..',
-      '..0..',
-      '..00.',
-      '.....'],
-     ['.....',
-      '.....',
-      '.000.',
-      '.0...',
-      '.....'],
-     ['.....',
-      '.00..',
-      '..0..',
-      '..0..',
-      '.....']]
-
-T = [['.....',
-      '..0..',
-      '.000.',
-      '.....',
-      '.....'],
-     ['.....',
-      '..0..',
-      '..00.',
-      '..0..',
-      '.....'],
-     ['.....',
-      '.....',
-      '.000.',
-      '..0..',
-      '.....'],
-     ['.....',
-      '..0..',
-      '.00..',
-      '..0..',
-      '.....']]
-
-# Seznam všech tvarů a jejich barev
-SHAPES = [S, Z, I, O, J, L, T]
-SHAPE_COLORS = [GREEN, RED, CYAN, YELLOW, ORANGE, BLUE, PURPLE]
-
-
-# --- Třída Tetromino ---
-class Tetromino:
-    """
-    Reprezentuje jeden padající blok (tetromino) ve hře.
-    Obsahuje informace o tvaru, barvě, pozici a rotaci.
-    """
-
-    def __init__(self, x, y, shape):
-        """
-        Inicializuje nové tetromino.
-        :param x: Počáteční X souřadnice (sloupec na herní desce).
-        :param y: Počáteční Y souřadnice (řádek na herní desce).
-        :param shape: Seznam matic definujících tvar a jeho rotace.
-        """
-        self.x = x
-        self.y = y
-        self.shape = shape
-        self.color = SHAPE_COLORS[SHAPES.index(shape)]  # Přiřadí barvu podle indexu tvaru
-        self.rotation = 0  # Aktuální rotace (index v seznamu tvarů)
-
-    def get_shape(self):
-        """
-        Vrátí aktuální tvar tetromina na základě jeho rotace.
-        :return: Matice 5x5 reprezentující aktuální tvar.
-        """
-        return self.shape[self.rotation % len(self.shape)]
-
-
-# --- Třída Board ---
 class Board:
     """
-    Reprezentuje herní desku Tetrisu.
-    Spravuje stav mřížky (grid), kde jsou uloženy zamčené bloky.
+    Třída reprezentující herní desku Tetrisu.
+    Spravuje stav hrací plochy, včetně obsazených polí.
     """
-
     def __init__(self, width, height):
         """
-        Inicializuje herní desku.
-        :param width: Šířka desky v blocích.
-        :param height: Výška desky v blocích.
+        Inicializuje herní desku s danou šířkou a výškou.
+        Deska je reprezentována jako dvourozměrný seznam, kde každá buňka
+        obsahuje typ bloku (např. 'I', 'J', 'EMPTY').
         """
         self.width = width
         self.height = height
-        self.grid = self.create_grid()  # Vytvoří prázdnou mřížku
+        # Inicializace prázdné desky. 'EMPTY' značí prázdné pole.
+        self.grid = [['EMPTY' for _ in range(width)] for _ in range(height)]
+        print(f"Herní deska inicializována: {self.width}x{self.height}")
 
-    def create_grid(self):
+    def display(self):
         """
-        Vytvoří a vrátí prázdnou herní mřížku.
-        Každá buňka je inicializována na černou barvu (prázdná).
-        :return: 2D seznam reprezentující herní mřížku.
+        Zobrazí aktuální stav herní desky v konzoli.
+        Prozatím zobrazuje jen prázdnou desku.
         """
-        # Mřížka je seznam seznamů, kde každý vnitřní seznam je řádek.
-        # Každý prvek vnitřního seznamu je barva bloku (nebo BLACK pro prázdné místo).
-        grid = [[BLACK for _ in range(self.width)] for _ in range(self.height)]
-        return grid
+        print("\n--- Herní deska ---")
+        for row in self.grid:
+            # Zde by se v budoucnu zobrazovaly tvary tetromino
+            print(" ".join(['.' if cell == 'EMPTY' else '#' for cell in row]))
+        print("-------------------\n")
 
-    def draw(self, surface):
+class Tetromino:
+    """
+    Abstraktní základní třída pro všechny tvary tetromino.
+    Definuje základní vlastnosti a metody, které budou sdílet všechny typy bloků.
+    """
+    def __init__(self, shape_type, color, initial_shape):
         """
-        Vykreslí herní desku na danou Pygame plochu.
-        Vykreslí mřížku a všechny zamčené bloky.
-        :param surface: Pygame plocha, na kterou se má kreslit.
+        Inicializuje tetromino.
+        :param shape_type: Typ tvaru (např. 'I', 'J', 'L').
+        :param color: Barva tetromino.
+        :param initial_shape: Seznam souřadnic reprezentujících tvar v jeho počáteční rotaci.
+                              Souřadnice jsou relativní k 'anchor' bodu (0,0).
         """
-        # Vykreslení mřížky (čáry)
-        for i in range(self.height):
-            for j in range(self.width):
-                # Vykreslí obdélník pro každý blok na základě barvy v mřížce
-                pygame.draw.rect(surface, self.grid[i][j],
-                                 (TOP_LEFT_X + j * BLOCK_SIZE, TOP_LEFT_Y + i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 0)
+        self.shape_type = shape_type
+        self.color = color
+        # Seznam všech možných rotací. Každá rotace je seznam souřadnic bloků.
+        self.rotations = [initial_shape]
+        self.current_rotation_index = 0
+        # Aktuální pozice tetromino na desce (horní levý roh ohraničujícího boxu).
+        self.x = 0
+        self.y = 0
+        print(f"Tetromino typu {self.shape_type} inicializováno.")
 
-        # Vykreslení ohraničení hrací plochy
-        pygame.draw.rect(surface, WHITE, (TOP_LEFT_X, TOP_LEFT_Y, PLAY_WIDTH, PLAY_HEIGHT), 4)
+    def get_current_shape(self):
+        """
+        Vrací souřadnice bloků aktuálního tvaru a rotace.
+        """
+        return self.rotations[self.current_rotation_index]
 
+    def rotate(self):
+        """
+        Změní rotaci tetromino na další v pořadí.
+        Tato metoda bude v dalších fázích rozšířena o logiku rotace.
+        """
+        # Prozatím jen placeholder, rotace se implementuje později.
+        print(f"Tetromino {self.shape_type} bylo otočeno (placeholder).")
+        self.current_rotation_index = (self.current_rotation_index + 1) % len(self.rotations)
 
-# --- Třída Game ---
+    def move(self, dx, dy):
+        """
+        Posune tetromino o dx v horizontálním směru a dy ve vertikálním směru.
+        Tato metoda bude v dalších fázích rozšířena o logiku pohybu.
+        """
+        # Prozatím jen placeholder, pohyb se implementuje později.
+        self.x += dx
+        self.y += dy
+        print(f"Tetromino {self.shape_type} bylo posunuto na ({self.x}, {self.y}) (placeholder).")
+
+# Definice konkrétních tvarů tetromino děděním od základní třídy Tetromino
+# Každý tvar má své specifické rotace.
+
+class I_Tetromino(Tetromino):
+    def __init__(self):
+        # Tvar I:
+        # . . . .
+        # X X X X
+        # . . . .
+        # . . . .
+        initial_shape = [(0, 1), (1, 1), (2, 1), (3, 1)] # Horizontální
+        super().__init__('I', COLORS['I'], initial_shape)
+        # Vertikální rotace
+        self.rotations.append([(1, 0), (1, 1), (1, 2), (1, 3)])
+
+class J_Tetromino(Tetromino):
+    def __init__(self):
+        # Tvar J:
+        # X . .
+        # X X X
+        # . . .
+        initial_shape = [(0, 0), (0, 1), (1, 1), (2, 1)]
+        super().__init__('J', COLORS['J'], initial_shape)
+        # Další rotace budou přidány v budoucnu
+
+class L_Tetromino(Tetromino):
+    def __init__(self):
+        # Tvar L:
+        # . . X
+        # X X X
+        # . . .
+        initial_shape = [(2, 0), (0, 1), (1, 1), (2, 1)]
+        super().__init__('L', COLORS['L'], initial_shape)
+        # Další rotace budou přidány v budoucnu
+
+class O_Tetromino(Tetromino):
+    def __init__(self):
+        # Tvar O:
+        # X X
+        # X X
+        initial_shape = [(0, 0), (1, 0), (0, 1), (1, 1)]
+        super().__init__('O', COLORS['O'], initial_shape)
+        # Tvar O má jen jednu rotaci, takže se další nepřidávají
+
+class S_Tetromino(Tetromino):
+    def __init__(self):
+        # Tvar S:
+        # . X X
+        # X X .
+        # . . .
+        initial_shape = [(1, 0), (2, 0), (0, 1), (1, 1)]
+        super().__init__('S', COLORS['S'], initial_shape)
+        # Další rotace budou přidány v budoucnu
+
+class T_Tetromino(Tetromino):
+    def __init__(self):
+        # Tvar T:
+        # . X .
+        # X X X
+        # . . .
+        initial_shape = [(1, 0), (0, 1), (1, 1), (2, 1)]
+        super().__init__('T', COLORS['T'], initial_shape)
+        # Další rotace budou přidány v budoucnu
+
+class Z_Tetromino(Tetromino):
+    def __init__(self):
+        # Tvar Z:
+        # X X .
+        # . X X
+        # . . .
+        initial_shape = [(0, 0), (1, 0), (1, 1), (2, 1)]
+        super().__init__('Z', COLORS['Z'], initial_shape)
+        # Další rotace budou přidány v budoucnu
+
 class Game:
     """
-    Hlavní třída pro správu herního stavu a logiky.
+    Hlavní třída pro správu hry Tetris.
+    Obsahuje herní desku, aktuální tetromino a hlavní herní smyčku.
     """
-
-    def __init__(self):
+    def __init__(self, width=10, height=20):
         """
-        Inicializuje herní instanci.
+        Inicializuje hru Tetris.
+        :param width: Šířka herní desky.
+        :param height: Výška herní desky.
         """
-        self.board = Board(10, 20)  # Vytvoří herní desku 10x20 bloků
-        self.current_piece = self.new_piece()  # Aktuálně padající blok
-        self.next_piece = self.new_piece()  # Další blok v pořadí
-        self.score = 0  # Skóre hráče
-        self.game_over = False  # Příznak konce hry
+        self.board = Board(width, height)
+        self.current_tetromino = None
+        self.game_over = False
+        print("Hra Tetris inicializována.")
 
-    def new_piece(self):
+    def spawn_tetromino(self):
         """
-        Generuje nový náhodný tetromino a vrací ho.
-        :return: Nová instance Tetromino.
+        Vytvoří nové náhodné tetromino a umístí ho na začátek desky.
         """
-        # Nový blok se objeví nahoře uprostřed herní desky.
-        return Tetromino(self.board.width // 2 - 2, 0, random.choice(SHAPES))
+        tetromino_types = [I_Tetromino, J_Tetromino, L_Tetromino, O_Tetromino, S_Tetromino, T_Tetromino, Z_Tetromino]
+        self.current_tetromino = random.choice(tetromino_types)()
+        # Nastavení počáteční pozice (např. uprostřed nahoře)
+        self.current_tetromino.x = self.board.width // 2 - len(self.current_tetromino.get_current_shape()) // 2
+        self.current_tetromino.y = 0
+        print(f"Nové tetromino typu {self.current_tetromino.shape_type} bylo vytvořeno.")
 
-    def draw(self, surface):
+    def run(self):
         """
-        Vykreslí všechny herní prvky na danou Pygame plochu.
-        Zahrnuje desku, aktuální blok, skóre a další informace.
-        :param surface: Pygame plocha, na kterou se má kreslit.
+        Hlavní herní smyčka.
+        Prozatím jen inicializuje desku a vytvoří jedno tetromino.
         """
-        # Vyplní pozadí obrazovky černou barvou
-        surface.fill(BLACK)
+        self.spawn_tetromino()
+        self.board.display() # Zobrazí prázdnou desku
+        print("Hra běží (prozatím jen základní inicializace).")
+        # Zde by v budoucnu probíhala hlavní herní smyčka s uživatelským vstupem,
+        # pohybem bloků, detekcí kolizí a odstraňováním řádků.
 
-        # Vykreslí herní desku
-        self.board.draw(surface)
-
-        # Vykreslí aktuální padající blok
-        # Prochází matici tvaru bloku
-        format_shape = self.current_piece.get_shape()
-        for i, line in enumerate(format_shape):
-            row = list(line)
-            for j, column in enumerate(row):
-                if column == '0':  # Pokud je to část bloku
-                    # Vypočítá skutečné souřadnice na obrazovce
-                    x = TOP_LEFT_X + (self.current_piece.x + j) * BLOCK_SIZE
-                    y = TOP_LEFT_Y + (self.current_piece.y + i) * BLOCK_SIZE
-                    # Vykreslí blok s jeho barvou
-                    pygame.draw.rect(surface, self.current_piece.color, (x, y, BLOCK_SIZE, BLOCK_SIZE), 0)
-
-        # Zobrazí skóre (zatím jen placeholder)
-        font = pygame.font.SysFont('comicsans', 30)
-        label = font.render(f'Skóre: {self.score}', 1, WHITE)
-        surface.blit(label, (TOP_LEFT_X + PLAY_WIDTH + 50, TOP_LEFT_Y + 100))
-
-        # Zobrazí "další blok" (zatím jen placeholder)
-        label = font.render('Další:', 1, WHITE)
-        surface.blit(label, (TOP_LEFT_X - 150, TOP_LEFT_Y + 100))
-
-        # Aktualizuje celou obrazovku
-        pygame.display.update()
-
-
-# --- Hlavní herní smyčka ---
-def main():
-    """
-    Hlavní funkce, která inicializuje Pygame a spouští herní smyčku.
-    """
-    pygame.init()  # Inicializace Pygame
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # Nastavení velikosti okna
-    pygame.display.set_caption('Tetris - Fáze 1')  # Nastavení titulku okna
-
-    game = Game()  # Vytvoření instance hry
-    clock = pygame.time.Clock()  # Pro řízení snímkové frekvence
-
-    run = True
-    while run:
-        # Omezení snímkové frekvence na 60 FPS
-        clock.tick(60)
-
-        # Zpracování událostí
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:  # Pokud uživatel zavře okno
-                run = False
-
-        # Vykreslení herního stavu
-        game.draw(screen)
-
-    pygame.quit()  # Ukončení Pygame
-
-
-if __name__ == '__main__':
-    main()
+# Příklad použití pro ověření základní struktury
+if __name__ == "__main__":
+    game = Game()
+    game.run()
