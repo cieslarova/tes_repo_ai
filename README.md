@@ -13,3 +13,6 @@
 | ID | Název projektu | Datum | Krátký popis |
 |----|----------------|-------|--------------|
 | 01 | Šibenice       | 2023-10-27 | Jednoduchá textová hra Šibenice pro jednoho hráče. |
+| ID | Název projektu | Datum | Krátký popis |
+|----|----------------|-------|--------------|
+| 01 | CHATBOT | 2023-10-27 | Jednoduchý interaktivní chatbot simulující základní konverzaci s uživatelem. |
