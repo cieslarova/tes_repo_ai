@@ -10,3 +10,6 @@
 | ID | Název projektu | Datum | Krátký popis |
 |----|----------------|-------|--------------|
 | 01 | TETRIS         | 2023-10-27 | Klasická bloková logická hra, kde hráč skládá padající tetromino do řádků. |
+| ID | Název projektu | Datum | Krátký popis |
+|----|----------------|-------|--------------|
+| 01 | Šibenice       | 2023-10-27 | Jednoduchá textová hra Šibenice pro jednoho hráče. |
