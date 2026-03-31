@@ -40,3 +40,24 @@ V druhé fázi projektu byla implementována základní herní smyčka a interak
 *   **Rozšíření třídy `Board`:** Byla přidána metoda `make_move(row, col, symbol)` pro umístění symbolu na plochu.
 *   **Uživatelský vstup:** Použita vestavěná funkce `input()` pro získání souřadnic od hráče.
 *   **Základní ošetření chyb:** Implementována kontrola, zda jsou zadané souřadnice v platném rozsahu (0-2). Neplatné vstupy jsou ignorovány a hráč je vyzván k opakování tahu.
+
+## Popis funkcionality programu (Fáze 3)
+Ve třetí a finální fázi projektu byla hra Piškvorky kompletně dokončena. Byla implementována veškerá chybějící logika pro kontrolu vítězných podmínek, detekci remízy a robustní ošetření chyb. Hra je nyní plně hratelná a poskytuje zpětnou vazbu o výsledku.
+
+**Konkrétní rozšíření Fáze 3:**
+*   **Kontrola vítězných podmínek:** Třída `Board` byla rozšířena o metody pro kontrolu, zda některý z hráčů vytvořil řadu tří stejných symbolů v řádku, sloupci nebo na diagonále.
+*   **Detekce remízy:** Hra nyní správně detekuje situaci, kdy je celá hrací plocha zaplněna a žádný hráč nevyhrál.
+*   **Robustní ošetření chyb:** Vstup od hráče je nyní důkladně validován, včetně kontroly, zda zadané souřadnice jsou v platném rozsahu a zda je cílové políčko volné. Chybné vstupy jsou jasně komunikovány.
+*   **Ukončení hry:** Herní smyčka se nyní správně ukončí, jakmile je detekován vítěz nebo remíza, a oznámí výsledek hry.
+*   **Počítadlo tahů:** Bylo přidáno počítadlo tahů pro efektivnější detekci remízy (maximálně 9 tahů na 3x3 ploše).
+
+## Technická část (Fáze 3)
+*   **Rozšíření třídy `Board`:**
+    *   `check_win(symbol)`: Nová metoda pro kontrolu vítězství pro daný symbol. Prochází všechny řádky, sloupce a obě diagonály.
+    *   `is_full()`: Nová metoda pro kontrolu, zda je hrací plocha plná (pro detekci remízy).
+*   **Rozšíření třídy `Game`:**
+    *   `run()` metoda byla upravena tak, aby po každém tahu volala `check_win()` a `is_full()`.
+    *   Byla přidána proměnná `moves_count` pro sledování počtu provedených tahů.
+*   **Algoritmy:** Pro kontrolu vítězných podmínek je použit jednoduchý algoritmus procházení mřížky. Pro řádky a sloupce se iteruje přes `self.grid`. Pro diagonály se kontrolují specifické indexy.
+*   **Ošetření chyb (try/except):** V metodě `get_player_move` je použito `try-except` pro zachycení `ValueError` v případě, že uživatel zadá nečíselný vstup.
+*   **Logika hry:** Celková logika hry je nyní robustní a pokrývá všechny standardní scénáře Piškvorek.
