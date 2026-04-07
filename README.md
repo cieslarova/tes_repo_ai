@@ -8,3 +8,6 @@
 | ID | Název projektu | Datum | Krátký popis |
 |----|----------------|-------|--------------|
 | 01 | Piškvorky      | 2023-10-26 | Jednoduchá konzolová hra Piškvorky pro dva hráče. |
+| ID | Název projektu | Datum | Krátký popis |
+|----|----------------|-------|--------------|
+| 01 | Coin Collector | 2023-10-27 | Jednoduchá 3D hra, kde hráč ovládá postavu v poli a sbírá mince. |
