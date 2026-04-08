@@ -39,3 +39,24 @@ Druhá fáze projektu rozšiřuje základní scénu o interaktivní prvky a hern
 *   **Kolizní systém:** `Panda3D` poskytuje robustní kolizní systém. Pro hráče a mince jsou přidány `CollisionSphere` (kolizní koule) jako kolizní tělesa. `CollisionHandlerQueue` je použit pro zpracování detekovaných kolizí. V každém snímku je spuštěn kolizní traverser, který kontroluje překrývání kolizních těles.
 *   **Správa skóre a UI:** Skóre je udržováno jako jednoduchá číselná proměnná. Pro zobrazení skóre na obrazovce je použit `OnscreenText` z `Panda3D`, který umožňuje snadné vkládání textových prvků do 2D rozhraní.
 *   **Kamera:** Kamera je dynamicky aktualizována v `task` funkci, aby udržovala relativní pozici vůči hráči, čímž ho efektivně sleduje.
+
+## Popis funkcionality programu - Fáze 3: Vylepšení, herní logika a robustnost
+Třetí a finální fáze projektu se zaměřuje na dokončení herní logiky, zvýšení robustnosti programu a vylepšení uživatelského zážitku. Cílem je vytvořit plně hratelnou verzi hry s jasnými herními stavy a základním ošetřením chyb.
+
+**Klíčové rozšíření funkcionality:**
+1.  **Herní stavy:** Je implementován systém herních stavů (např. "playing", "game_over"), který řídí chování hry v různých fázích.
+2.  **Podmínka konce hry:** Hra nyní obsahuje podmínku pro konec hry (např. po sebrání určitého počtu mincí nebo uplynutí času).
+3.  **Restart hry:** Po skončení hry je hráči nabídnuta možnost restartovat hru, což vede k novému začátku se všemi resetovanými parametry.
+4.  **Vylepšené UI:** Uživatelské rozhraní je rozšířeno o zprávy informující o stavu hry (např. "Game Over", "Stiskněte R pro restart").
+5.  **Ošetření chyb:** Jsou přidány základní mechanismy pro ošetření potenciálních chyb, například při načítání 3D modelů, což zvyšuje stabilitu aplikace.
+6.  **Zvukové efekty (volitelné):** I když nejsou přímo implementovány v kódu pro zachování stručnosti, je v dokumentaci zmíněna možnost přidání zvukových efektů pro sbírání mincí, což by dále zlepšilo herní zážitek.
+
+## Technická část - Fáze 3
+*   **Herní stavy:** Herní stavy jsou spravovány pomocí stavové proměnné (např. `self.game_state`). Logika hry (pohyb, kolize, UI) se podmiňuje aktuálním stavem.
+*   **Konec hry a restart:** Po dosažení podmínky konce hry (např. `self.max_coins_to_collect` nebo `self.game_timer`) je herní stav přepnut na "game_over". V tomto stavu je zobrazeno UI pro restart a je aktivováno naslouchání na klávesu pro restart (např. 'r'). Funkce pro restart (`self.reset_game()`) resetuje skóre, pozici hráče, mince a herní stav.
+*   **Vylepšené UI:** `OnscreenText` je dynamicky aktualizován pro zobrazení různých zpráv v závislosti na herním stavu.
+*   **Ošetření chyb:** Při načítání modelů (`loader.loadModel()`) je použito `try-except` bloků. Pokud model není nalezen, program se nesesype, ale vypíše varování a případně použije zástupný objekt nebo ukončí hru elegantně.
+*   **Správa tasků:** Tasky pro pohyb hráče a kontrolu kolizí jsou pozastaveny nebo obnoveny v závislosti na herním stavu, aby se zabránilo interakcím mimo aktivní hru.
+
+**Závěrečné zhodnocení dokončení projektu:**
+Projekt "Coin Collector" dosáhl plně hratelné verze, která splňuje původní cíle. Byla úspěšně implementována základní 3D scéna, interaktivní pohyb hráče, dynamické generování a sbírání mincí s počítáním skóre. Dále byla přidána robustní správa herních stavů, možnost restartu a základní ošetření chyb, což zvyšuje stabilitu a uživatelskou přívětivost aplikace. Použití knihovny Panda3D umožnilo efektivní práci s 3D prostředím a herní logikou. Projekt je připraven k dalšímu rozšíření o pokročilejší funkce, jako jsou různé úrovně, nepřátelé, vylepšená grafika nebo zvukové efekty.
