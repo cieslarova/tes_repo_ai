@@ -22,3 +22,20 @@ Tato fáze slouží jako základ pro další vývoj, ověřuje správné nastave
 *   **Scénický graf (Scene Graph):** `Panda3D` využívá hierarchický scénický graf pro organizaci 3D objektů. V této fázi jsou modely terénu, hráče a mincí připojeny k tomuto grafu jako `NodePath` objekty.
 *   **Načítání modelů:** 3D modely (např. ve formátu `.egg` nebo `.gltf`) jsou načítány pomocí metody `loader.loadModel()`. Pro účely této ukázky budou použity jednoduché geometrické tvary generované přímo v kódu (`render.attachNewNode("model_name")` a `loader.loadModel("models/sphere")` apod.) nebo se předpokládá jejich existence v adresáři `models`.
 *   **Inicializace kamery a osvětlení:** Kamera je nastavena do výchozí pozice a orientace. Je přidáno základní ambientní a směrové osvětlení (`DirectionalLight`) pro zajištění viditelnosti scény.
+
+## Popis funkcionality programu - Fáze 2: Pohyb hráče, sbírání mincí a skóre
+Druhá fáze projektu rozšiřuje základní scénu o interaktivní prvky a herní logiku. Hlavním cílem je umožnit hráči pohybovat se po terénu, dynamicky generovat mince a implementovat mechanismus jejich sbírání, včetně počítání skóre.
+
+**Klíčové rozšíření funkcionality:**
+1.  **Pohyb hráče:** Hráč je nyní schopen pohybovat se po terénu pomocí klávesnice (např. WASD nebo šipky). Pohyb je plynulý a reaguje na stisknutí kláves.
+2.  **Generování mincí:** Mince jsou generovány dynamicky na náhodných pozicích v rámci herního pole. Tím se zajišťuje variabilita každé hry.
+3.  **Detekce kolizí:** Je implementován jednoduchý systém detekce kolizí mezi hráčem a mincemi. Při kontaktu hráče s mincí je mince považována za sebranou.
+4.  **Sbírání mincí a skóre:** Sebraná mince zmizí ze scény a hráčovo skóre se zvýší. Aktuální skóre je zobrazeno na obrazovce pomocí jednoduchého textového UI prvku.
+5.  **Kamera sledující hráče:** Kamera je upravena tak, aby sledovala hráče, což zlepšuje herní zážitek a udržuje hráče vždy v centru dění.
+
+## Technická část - Fáze 2
+*   **Pohyb hráče:** Využívá se systém `task` z `Panda3D` pro pravidelnou aktualizaci pozice hráče v každém snímku. Vstup z klávesnice je zpracováván pomocí `base.accept()` pro mapování kláves na akce (pohyb vpřed, vzad, vlevo, vpravo).
+*   **Generování mincí:** Mince jsou generovány pomocí `random` modulu pro určení náhodných X a Y souřadnic v rámci definovaných hranic terénu.
+*   **Kolizní systém:** `Panda3D` poskytuje robustní kolizní systém. Pro hráče a mince jsou přidány `CollisionSphere` (kolizní koule) jako kolizní tělesa. `CollisionHandlerQueue` je použit pro zpracování detekovaných kolizí. V každém snímku je spuštěn kolizní traverser, který kontroluje překrývání kolizních těles.
+*   **Správa skóre a UI:** Skóre je udržováno jako jednoduchá číselná proměnná. Pro zobrazení skóre na obrazovce je použit `OnscreenText` z `Panda3D`, který umožňuje snadné vkládání textových prvků do 2D rozhraní.
+*   **Kamera:** Kamera je dynamicky aktualizována v `task` funkci, aby udržovala relativní pozici vůči hráči, čímž ho efektivně sleduje.
