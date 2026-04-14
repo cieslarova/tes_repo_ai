@@ -11,3 +11,6 @@
 | ID | Název projektu | Datum | Krátký popis |
 |----|----------------|-------|--------------|
 | 01 | Coin Collector | 2023-10-27 | Jednoduchá 3D hra, kde hráč ovládá postavu v poli a sbírá mince. |
+| ID | Název projektu | Datum | Krátký popis |
+|----|----------------|-------|--------------|
+| 01 | 3D Hra         | 2023-10-27 | Jednoduchá 3D hra pro demonstraci základních principů 3D grafiky a interakce. |
