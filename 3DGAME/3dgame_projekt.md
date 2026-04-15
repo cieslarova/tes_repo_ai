@@ -17,3 +17,16 @@ V první fázi projektu je inicializováno herní okno a vytvořeno základní 3
     *   `EditorCamera`: Pro účely vývoje a snadné navigace ve scéně je dočasně použita `EditorCamera`, která umožňuje volný pohyb kamerou. V pozdějších fázích bude nahrazena kamerou navázanou na hráče.
 *   **Datové struktury:** V této fázi se nepoužívají žádné složité vlastní datové struktury, pouze základní objekty `Entity` s jejich inherentními vlastnostmi (pozice, model, barva, měřítko).
 *   **Algoritmy:** Žádné komplexní algoritmy nejsou v této fázi implementovány, pouze inicializační volání knihovny Ursina.
+
+# Projekt: 3D Hra
+
+## Popis funkcionality programu (Fáze 2)
+V této fázi byla implementována základní funkčnost pro pohyb hráče v 3D prostoru. Hráč nyní může být ovládán pomocí klávesnice (WASD pro pohyb vpřed/vzad a do stran). Kamera je nově navázána na hráče, což zajišťuje, že se pohled hráče pohybuje s ním, a zvyšuje tak imerzi a pocit "být ve hře". Pro obohacení scény a poskytnutí vizuálních referencí pro pohyb byly přidány další statické objekty (např. stěny nebo překážky), které pomáhají hráči orientovat se v prostoru a vnímat hloubku.
+
+## Technická část (Fáze 2)
+*   **Rozšíření třídy `Entity`:** Byla vytvořena vlastní třída `Player`, která dědí z `Entity` a přidává specifickou logiku pro ovládání a interakci.
+*   **Ovládání hráče:**
+    *   Metoda `input(key)`: Zpracovává stisknutí kláves (WASD) pro detekci směru pohybu.
+    *   Metoda `update()`: Je volána každým snímkem a aktualizuje pozici hráče na základě detekovaných vstupů a jeho rychlosti.
+*   **Kamera:** `camera.parent = self` (kde `self` je instance hráče) zajišťuje, že kamera sleduje hráče. `camera.position` a `camera.rotation` jsou upraveny tak, aby poskytovaly pohled z pohledu třetí osoby nebo první osoby.
+*   **Přidání objektů:** Další instance `Entity` byly přidány do scény s různými modely, barvami a pozicemi, aby vytvořily jednodušší prostředí.
