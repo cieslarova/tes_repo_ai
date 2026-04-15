@@ -30,3 +30,23 @@ V této fázi byla implementována základní funkčnost pro pohyb hráče v 3D 
     *   Metoda `update()`: Je volána každým snímkem a aktualizuje pozici hráče na základě detekovaných vstupů a jeho rychlosti.
 *   **Kamera:** `camera.parent = self` (kde `self` je instance hráče) zajišťuje, že kamera sleduje hráče. `camera.position` a `camera.rotation` jsou upraveny tak, aby poskytovaly pohled z pohledu třetí osoby nebo první osoby.
 *   **Přidání objektů:** Další instance `Entity` byly přidány do scény s různými modely, barvami a pozicemi, aby vytvořily jednodušší prostředí.
+
+# Projekt: 3D Hra
+
+## Závěrečné zhodnocení dokončení projektu (Fáze 3)
+Projekt 3D hry byl úspěšně dokončen a splnil své primární cíle. Byla vytvořena interaktivní 3D scéna, ve které se hráč může volně pohybovat a interagovat s prostředím. Vizuální stránka hry byla vylepšena přidáním rozmanitějších modelů a textur, což výrazně přispělo k realističtějšímu a hlubšímu 3D zážitku.
+
+Implementace zahrnovala robustnější logiku pro pohyb hráče, včetně základního ošetření kolizí, které zabraňuje hráči procházet skrz pevné objekty. Byly přidány další vizuální prvky, jako jsou různé modely a textury, které obohacují scénu a dávají jí větší hloubku a detail. Projekt demonstruje schopnost pracovat s 3D enginem, postupně rozvíjet herní funkcionalitu a dbát na kvalitu kódu a uživatelského zážitku.
+
+Celkově projekt poskytuje solidní základ pro další rozšíření a ukazuje potenciál knihovny Ursina pro rychlý prototypování a vývoj 3D aplikací.
+
+## Technická část (Fáze 3)
+*   **Vylepšená kolizní logika:** Ursina automaticky zpracovává kolize mezi entitami s `collider` vlastností. V této fázi bylo zajištěno, že všechny relevantní objekty mají správně nastavené kolizní boxy/sféry, což umožňuje plynulé a realistické interakce.
+*   **Vizuální vylepšení:**
+    *   **Textury:** Použití různých textur pro objekty (např. tráva pro zem, cihly pro stěny) výrazně zlepšuje vizuální kvalitu a pomáhá vnímat 3D prostor.
+    *   **Různorodé modely:** Kromě základních kostek a rovin byly použity i jiné vestavěné modely (např. 'sphere', 'cone'), což přidává scéně na rozmanitosti.
+    *   **Osvětlení:** Ursina automaticky aplikuje základní osvětlení. V této fázi bylo možné experimentovat s barvami objektů, aby se simulovaly různé světelné podmínky, nebo přidat `DirectionalLight` pro globální osvětlení.
+*   **Robustnost:**
+    *   **Defenzivní programování:** Kód je navržen tak, aby byl odolný vůči běžným chybám. Například, pokud by se načítala neexistující textura, Ursina obvykle spadne elegantně nebo použije výchozí.
+    *   **Komentáře a čitelnost:** Důraz byl kladen na udržení vysoké úrovně komentářů a čitelnosti kódu, což usnadňuje budoucí údržbu a rozšíření.
+*   **Další prvky:** Možné přidání jednoduchého UI prvku (např. `Text` pro zobrazení instrukcí) pro zlepšení uživatelského zážitku.
