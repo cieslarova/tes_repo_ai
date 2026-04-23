@@ -37,3 +37,29 @@ Ve druhé fázi projektu byla implementována základní funkční logika pro po
 *   **Správa událostí:** Herní smyčka nyní aktivně zpracovává události stisku kláves (`pygame.KEYDOWN`, `pygame.KEYUP`) pro řízení pohybu hráče a střelby.
 *   **Seznamy entit:** Pro správu více nepřátel a střel jsou použity Python seznamy, které se v každém snímku aktualizují a filtrují (např. odstranění střel mimo obrazovku).
 *   **Časovač střelby:** Pro omezení frekvence střelby hráče je použit jednoduchý časovač (`last_shot_time`).
+
+## Popis funkcionality programu (Fáze 3)
+Ve třetí a finální fázi projektu byla hra Space Invaders dokončena s implementací kolizí, správy skóre, životů, herních stavů a nepřátelské střelby. Hra je nyní plně hratelná s jasnými cíli a podmínkami pro výhru/prohru.
+
+*   **Detekce kolizí:**
+    *   **Hráčovy střely vs. Nepřátelé:** Když hráčova střela zasáhne nepřítele, nepřítel je odstraněn a hráč získá body.
+    *   **Nepřátelské střely vs. Hráč:** Když nepřátelská střela zasáhne hráče, hráč ztratí jeden život. Po vyčerpání všech životů hra končí.
+    *   **Nepřátelé vs. Hráč:** Pokud nepřátelé dosáhnou spodní části obrazovky (kde je hráč), hra okamžitě končí.
+*   **Správa skóre:** Hráč získává body za zničené nepřátele. Skóre je zobrazeno na obrazovce.
+*   **Správa životů:** Hráč má omezený počet životů, které se snižují při zásahu nepřátelskou střelou. Počet zbývajících životů je zobrazen.
+*   **Herní stavy:** Hra nyní rozlišuje mezi stavy `RUNNING`, `GAME_OVER` a `WIN`.
+    *   `RUNNING`: Standardní herní stav.
+    *   `GAME_OVER`: Zobrazí zprávu "GAME OVER" a skóre, umožní restart.
+    *   `WIN`: Zobrazí zprávu "YOU WIN!" a skóre, umožní restart.
+*   **Nepřátelská střelba:** Nepřátelé nyní náhodně střílí střely směrem dolů. Frekvence střelby se může zvyšovat s postupem hry nebo s menším počtem nepřátel.
+*   **Restart hry:** Po skončení hry (výhra/prohra) je možné hru restartovat stisknutím klávesy 'R'.
+*   **Vylepšená stabilita:** Bylo přidáno základní ošetření chyb při inicializaci Pygame a načítání obrázků (i když obrázky jsou stále placeholder).
+
+## Technická část (Fáze 3)
+*   **Skupiny spritů:** Pro efektivní detekci kolizí jsou široce využívány `pygame.sprite.Group` a funkce `pygame.sprite.groupcollide()` a `pygame.sprite.spritecollide()`.
+*   **Herní stavový automat:** Pro řízení toku hry je použit jednoduchý stavový automat (proměnná `game_state`).
+*   **Náhodná střelba nepřátel:** Modul `random` je použit pro simulaci náhodné střelby nepřátel.
+*   **Zobrazení textu:** Pro zobrazení skóre, životů a zpráv o stavu hry je použito vykreslování textu pomocí `pygame.font`.
+*   **Resetovací logika:** Funkce `reset_game()` byla implementována pro snadné obnovení všech herních entit a proměnných do počátečního stavu.
+*   **Error Handling:** Základní `try-except` bloky by mohly být přidány pro robustnější načítání zdrojů, ale pro tuto školní úlohu je dostačující kontrola `pygame.get_error()`.
+*   **Optimalizace:** Odstranění střel a nepřátel z paměti po kolizi nebo opuštění obrazovky pomáhá udržet výkon.
