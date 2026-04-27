@@ -18,3 +18,6 @@
 | ID | Název projektu | Datum | Krátký popis |
 |----|----------------|-------|--------------|
 | 01 | Hangman | 2024-03-15 | Klasická textová hra Šibenice, kde hráč hádá slovo písmeno po písmenu. |
+| ID | Název projektu | Datum | Krátký popis |
+|----|----------------|-------|--------------|
+| 01 | Hledání Min | 2024-03-15 | Projekt pro nalezení minimální hodnoty v seznamu čísel s robustním ošetřením vstupů. |
