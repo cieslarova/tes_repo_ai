@@ -22,3 +22,11 @@ Tato fáze se zaměřuje na robustní architektonický základ, který usnadní 
     *   Seznam (`list`): Pro uložení slov, ze kterých se bude vybírat tajenka.
     *   Množina (`set`): Pro efektivní ukládání uhodnutých a chybně uhodnutých písmen, což umožňuje rychlou kontrolu existence písmena a zabraňuje duplicitám.
 *   **Volání externího API:** Žádné.
+
+## Popis funkcionality programu (Fáze 2)
+V druhé fázi vývoje byla implementována základní funkční logika hry Šibenice. Byly rozšířeny a dokončeny metody, které byly v první fázi pouze jako záchytné body. Konkrétně:
+*   Metoda `_vyber_slovo()` nyní skutečně náhodně vybírá slovo ze seznamu dostupných slov.
+*   Metoda `_zobraz_stav_hry()` byla vylepšena tak, aby správně zobrazovala uhodnutá písmena ve slově (např. `P _ T H _ N`) a také seznam již uhodnutých písmen a zbývající počet pokusů.
+*   Metoda `_zpracuj_hadani()` nyní plně zpracovává vstup od hráče, kontroluje, zda bylo písmeno již uhodnuto, a správně aktualizuje stav hry (přidává písmeno do sady uhodnutých písmen a zvyšuje počet chybných pokusů, pokud je písmeno špatné).
+*   Hlavní herní smyčka `hraj()` byla doplněna o kontrolu konce hry, a to jak pro případ výhry (všechna písmena slova jsou uhodnuta), tak pro případ prohry (vyčerpání maximálního počtu chybných pokusů). Hra se nyní správně ukončí po dosažení jedné z těchto podmínek.
+Tato fáze přinesla plně hratelnou, byť zatím textově jednoduchou, verzi hry.
