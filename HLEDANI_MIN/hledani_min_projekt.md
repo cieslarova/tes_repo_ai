@@ -20,3 +20,8 @@ V této fázi program neposkytuje plnou funkcionalitu hledání minima. Místo t
 *   **Algoritmy:** Žádný konkrétní algoritmus pro hledání minima není v této fázi implementován. Pouze je připravena kostra pro jeho budoucí začlenění.
 *   **Vlastní datové struktury:** Používá se standardní Python `list` pro uchování vstupních dat.
 *   **Volání externího API:** Není relevantní pro tuto fázi.
+
+# Hledání Min - Projektová dokumentace (Fáze 2)
+
+## Shrnutí rozšíření ve Fázi 2
+V druhé fázi projektu byla implementována základní funkční logika pro nalezení minimální hodnoty v seznamu čísel. Metoda `find_minimum` nyní iteruje přes vstupní seznam a porovnává hodnoty, aby určila nejmenší prvek. Bylo přidáno základní ošetření pro prázdné seznamy, které vrací `None`, což je smysluplná hodnota pro tento okrajový případ. Kód je stále hojně komentován, aby byla zajištěna jeho čitelnost a srozumitelnost.
