@@ -30,3 +30,8 @@ V druhé fázi projektu byla implementována základní funkční logika pro nal
 
 ## Shrnutí rozšíření ve Fázi 2
 V druhé fázi projektu byla implementována základní funkční logika pro nalezení minimální hodnoty v seznamu čísel. Metoda `find_minimum` nyní iteruje přes vstupní seznam a porovnává hodnoty, aby určila nejmenší prvek. Bylo přidáno základní ošetření pro prázdné seznamy, které vrací `None`, což je smysluplná hodnota pro tento okrajový případ. Kód je stále hojně komentován, aby byla zajištěna jeho čitelnost a srozumitelnost.
+
+# Hledání Min - Projektová dokumentace (Fáze 2)
+
+## Shrnutí rozšíření ve Fázi 2
+V druhé fázi projektu byla implementována základní funkční logika pro nalezení minimální hodnoty v seznamu čísel. Metoda `find_minimum` nyní iteruje přes vstupní seznam a porovnává hodnoty, aby určila nejmenší prvek. Bylo přidáno základní ošetření pro prázdné seznamy, které vrací `None`, což je smysluplná hodnota pro tento okrajový případ. Kód je stále hojně komentován, aby byla zajištěna jeho čitelnost a srozumitelnost.
